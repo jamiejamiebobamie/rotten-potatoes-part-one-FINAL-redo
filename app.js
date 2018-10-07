@@ -37,7 +37,7 @@ const Schema = mongoose.Schema
 //const mongoose = require('mongoose');
 //mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes');
 
-//temporarily testing reviews models
+//temporarily testing models
 const Review = mongoose.model('Review', {
   title: String,
   description: String,
@@ -146,6 +146,8 @@ app.delete('/reviews/:id', function (req, res) {
 })
 
 
+
+//start controllers/comments.js
 // CREATE Comment
 app.post('/reviews/comments', (req, res) => {
   Comment.create(req.body).then(comment => {
@@ -154,6 +156,18 @@ app.post('/reviews/comments', (req, res) => {
     console.log(err.message);
   });
 });
+
+// DELETE
+app.delete('/reviews/comments/:id', function (req, res) {
+  console.log("DELETE comment")
+  Comment.findByIdAndRemove(req.params.id).then((comment) => {
+    res.redirect(`/reviews/${comment.reviewId}`);
+  }).catch((err) => {
+    console.log(err.message);
+  })
+})
+//end controllers/comments.js
+
 
 
 //the localhost port
