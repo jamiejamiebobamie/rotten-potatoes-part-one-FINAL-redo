@@ -1,6 +1,7 @@
 //const express = require('express')
 //const app = express()
 //const Review = require('../models/review');
+//const Comment = require('./models/comment')
 //
 //module.exports = function(app, Review) {
 //

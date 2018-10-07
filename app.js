@@ -11,6 +11,11 @@ const methodOverride = require('method-override')
 
 const app = express()
 
+
+//const Review = require('./models/review')
+//const Comment = require('./models/comment')
+
+
 //const reviews = require('./controllers/reviews')(app);
 //must come below const app, but before routes
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,6 +28,10 @@ app.use(methodOverride('_method'))
 //local host database
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/rotten-potatoes');
+
+//should be in models/comment.js
+const Schema = mongoose.Schema
+
 
 //heroku database. check phylis' "MONGODB_URI"
 //const mongoose = require('mongoose');
@@ -37,7 +46,9 @@ const Review = mongoose.model('Review', {
 });
 
 const Comment = mongoose.model('Comment', {
-    pass: String
+    title: String,
+    content: String,
+    reviewId: { type: Schema.Types.ObjectId, ref: 'Review' }
 });
 
 //somethign raymond typed below to help me with the separation of concerns and then he said you imported the thing but you ddn't do anythign with it so i'm just going to keep going, because it didn't really help and i'm afraid to ask for more help
@@ -82,14 +93,29 @@ app.post('/reviews', (req, res) => {
   })
 })
 
-// SHOW A single review by clicking on the title link in index
+// SHOW A single review by clicking on the title link in index, WITHOUT COMMENTS!!!
+//app.get('/reviews/:id', (req, res) => {
+//  Review.findById(req.params.id).then((review) => {
+//    res.render('reviews-show', { review: review })
+//  }).catch((err) => {
+//    console.log(err.message);
+//  })
+//})
+
+// SHOW A single review by clicking on the title link in index, WITH COMMENTS!!!
 app.get('/reviews/:id', (req, res) => {
-  Review.findById(req.params.id).then((review) => {
-    res.render('reviews-show', { review: review })
+  // find review
+  Review.findById(req.params.id).then(review => {
+    // fetch its comments
+    Comment.find({ reviewId: req.params.id }).then(comments => {
+      // respond with the template with both values
+      res.render('reviews-show', { review: review, comments: comments })
+    })
   }).catch((err) => {
-    console.log(err.message);
-  })
-})
+    // catch errors
+    console.log(err.message)
+  });
+});
 
 // EDIT a review by clicking on the edit link in the shown review
 app.get('/reviews/:id/edit', (req, res) => {
@@ -118,6 +144,17 @@ app.delete('/reviews/:id', function (req, res) {
     console.log(err.message);
   })
 })
+
+
+// CREATE Comment
+app.post('/reviews/comments', (req, res) => {
+  Comment.create(req.body).then(comment => {
+    res.redirect(`/reviews/${comment.reviewId}`);
+  }).catch((err) => {
+    console.log(err.message);
+  });
+});
+
 
 //the localhost port
 app.listen(7000, () => {
