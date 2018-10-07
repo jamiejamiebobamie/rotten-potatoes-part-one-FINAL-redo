@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const exphbs = require('express-handlebars');
+const mongoose = require('mongoose');
 
 //middleware for JSON data
 const bodyParser = require('body-parser');
@@ -14,6 +15,7 @@ const comments = require('./controllers/comments');
 const Review = require('./models/review');
 const Comment = require('./models/comment');
 
+const port = process.env.PORT || 7000;
 
 //must come below const app, but before routes
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,12 +25,10 @@ app.use(methodOverride('_method'))
 
 
 //local host database
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/rotten-potatoes');
+//mongoose.connect('mongodb://localhost/rotten-potatoes');
 
-//heroku database. check phylis' "MONGODB_URI"
-//const mongoose = require('mongoose');
-//mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes');
+//heroku database.
+mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes'), { useNewUrlParser: true });
 
 
 //views middleware
@@ -36,7 +36,7 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 //PHYLIS DOES IT THIS WAY
-app.use( reviews);
+app.use('/', reviews);
 app.use( comments);
 
 
@@ -161,15 +161,7 @@ app.use( comments);
 ////end controllers/comments.js
 
 
-
-//the localhost port
-app.listen(7000, () => {
-    console.log('App listening on port 7000!')
-})
-
-//heroku port
-//const port = process.env.PORT || 7000;
-//app.listen(port);
+app.listen(port);
 
 
 module.exports = app;
