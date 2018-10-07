@@ -2,27 +2,20 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app');
 const should = chai.should();
-//const Review = require('../models/review');
-//const Review = require('../app');
-const Review = require('../app');
+const Review = require('../models/review');
 
 const sampleReview =     {
     "title": "Super Sweet Review",
     "movie-title": "La La Land",
-    "description": "A great review of a lovely movie."
+    "description": "A great review of a lovely movie.",
+    "rating": "Number"
 }
 
 chai.use(chaiHttp);
 
 describe('Reviews', ()  => {
 
-//delete test_reviews
-    after(() => {
-        Review.deleteMany({title: 'Super Sweet Review'}).exec((err, reviews) => {
-          console.log(reviews)
-          reviews.remove();
-        })
-      });
+
 
   // TEST INDEX
   it('should index ALL reviews on / GET', (done) => {
@@ -60,6 +53,15 @@ describe('Reviews', ()  => {
 
   // TEST SHOW
   it('should show a SINGLE review on /reviews/<id> GET', (done) => {
+
+      //delete test_reviews
+          after(() => {
+              Review.deleteMany({title: 'Super Sweet Review'}).exec((err, reviews) => {
+                console.log(reviews)
+                reviews.remove();
+              })
+            });
+
     var review = new Review(sampleReview);
     review.save((err, data) => {
       chai.request(server)
@@ -83,7 +85,7 @@ var review = new Review(sampleReview);
        res.should.be.html
        done();
      });
- });
+    });
 });
 
 // TEST UPDATE
