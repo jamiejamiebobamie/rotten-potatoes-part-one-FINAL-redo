@@ -7,8 +7,7 @@ const sampleReview =     {
     "title": "Super Sweet Review",
     "description": "A great review of a lovely movie.",
     "movieTitle": "La La Land",
-    "rating": "Number",
-    "movieId" : "sampleMovieId"
+    "rating": 5
 };
 
 //chai.request('http://localhost:3000')
