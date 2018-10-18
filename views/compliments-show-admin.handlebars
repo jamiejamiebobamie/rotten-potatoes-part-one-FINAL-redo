@@ -1,0 +1,33 @@
+<!-- <a href="/">Back to Home</a> -->
+<div class="row">
+  <div id="test" class="col-sm-6 col-sm-offset-3">
+    <h1>{{compliment.compliment}}</h1>
+    <h2>-{{compliment.author}}</h2>
+    <h3>{{compliment.time}}</h3>
+  </div>
+  <p><a href="/compliments/{{compliment._id}}/edit">Edit</a></p>
+  <p><form method="POST" action="/compliments/{{compliment._id}}?_method=DELETE">
+      <button class="btn btn-primary" type="submit">Delete</button>
+  </form></p>
+</div>
+
+<style>
+#test p {
+    opacity: 0;
+    margin-top: 25px;
+    font-size: 21px;
+    text-align: center;
+    -webkit-transition: opacity 5s ease-in;
+    -moz-transition: opacity 5s ease-in;
+    -o-transition: opacity 5s ease-in;
+    -ms-transition: opacity 5s ease-in;
+    transition: opacity 5s ease-in;
+}
+#test p.load {
+    opacity: 1;
+}
+</style>
+
+<script>
+$("#test p").addClass("load");
+</script>

@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <form method="POST" action="/compliments">
+        <fieldset>
+          <!-- <legend>Edit compliment</legend> -->
+
+
+          <!-- DESCRIPTION -->
+          <div class="form-group">
+            <label for="compliment-description">Compliment:</label><br>
+            <textarea class="form-control" id="compliment-description" name="compliment" rows="10" />{{compliment.compliment}}</textarea>
+          </div>
+
+          <!-- TITLE -->
+          <div class="form-group">
+            <label for="compliment-autho">Your Name:</label><br>
+            <input class="form-control" id="compliment-autho" type="text" name="author" value="{{compliment.author}}"/>
+          </div>
+
+          <!-- MOVIE TITLE -->
+          <div class="form-group">
+            <label for="timestamp"></label><br>
+            <input class="form-control" id="timestamp" type="hidden" name="timestamp" value="{{compliment.time}}" />
+          </div>
+
+        <script>
+        function getTimeStamp() {
+            var date = new Date();
+            para = document.getElementById('timestamp');
+            para.value = date;
+        }
+        </script>
+
+        </fieldset>
+
+      <!-- BUTTON -->
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit" onclick="getTimeStamp();">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>

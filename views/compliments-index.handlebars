@@ -1,0 +1,42 @@
+<h1>compliments</h1>
+
+<div class="row">
+  {{#each compliments}}
+    <div class="col-sm-3">
+      <h2><a href="/compliments/{{this._id}}">{{this.compliment}}</a></h2>
+      <small>{{this.author}}</small>
+    </div>
+  {{/each}}
+</div>
+
+<meta http-equiv="refresh" content="7;url=/" />
+
+
+<!-- var timer = { -->
+    <!-- interval: null, -->
+    <!-- seconds: 30, -->
+<!--  -->
+    <!-- start: function () { -->
+        <!-- var self = this, -->
+            <!-- el = document.getElementById('time-to-update'); -->
+<!--  -->
+        <!-- el.innerText = this.seconds; // Output initial value -->
+<!--  -->
+        <!-- this.interval = setInterval(function () { -->
+            <!-- self.seconds--; -->
+<!--  -->
+            <!-- if (self.seconds == 0)  -->
+                <!-- window.location.reload(); -->
+<!--  -->
+            <!-- el.innerText = self.seconds; -->
+        <!-- }, 1000); -->
+    <!-- }, -->
+<!--  -->
+    <!-- stop: function () { -->
+        <!-- window.clearInterval(this.interval) -->
+    <!-- } -->
+<!-- } -->
+<!--  -->
+<!-- timer.start(); -->
+<!--  -->
+<!-- https://stackoverflow.com/questions/18312771/javascript-autoreload-in-infinite-loop-with-time-left-till-next-reload -->

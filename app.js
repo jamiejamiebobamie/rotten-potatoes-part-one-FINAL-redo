@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
+var admin = false;
+
 
 //middleware for JSON data
 const bodyParser = require('body-parser');
@@ -10,10 +12,12 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
 
-const reviews = require('./controllers/reviews');
-const comments = require('./controllers/comments');
-const Review = require('./models/review');
-const Comment = require('./models/comment');
+//const reviews = require('./controllers/reviews');
+//const comments = require('./controllers/comments');
+//const Review = require('./models/review');
+//const Comment = require('./models/comment');
+const Compliment = require('./models/compliment');
+const compliments = require('./controllers/compliments');
 
 const port = process.env.PORT || 7000;
 
@@ -36,9 +40,9 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 //PHYLIS DOES IT THIS WAY
-app.use('/', reviews);
-app.use( comments);
-
+//app.use('/', reviews);
+//app.use( comments);
+app.use( compliments);
 
 //BELOW ARE ALL THE ROUTES IN APP.JS BEFORE SEPARATION OF CONCERNS / PHYLIS' HELP
 
